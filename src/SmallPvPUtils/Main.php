@@ -5,6 +5,7 @@ namespace SmallPvPUtils;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\entity\EntityDeathEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Player;
@@ -30,7 +31,7 @@ class Main extends PluginBase implements Listener
     }
   }
 
-  public function onPlayerDeath(PlayerDeathEvent $event){
+  public function onEntityDeath(EntityDeathEvent $event){
     $p = $event->getEntity();
     $p->setDrops(null);
   }
