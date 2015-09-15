@@ -8,6 +8,8 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\block\Block;
+use pocketmine\entity\Entity;
 
 class Main extends PluginBase implements Listener
 
