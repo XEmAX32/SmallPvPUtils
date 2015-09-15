@@ -32,7 +32,7 @@ class Main extends PluginBase implements Listener
 
   public function onPlayerDeath(PlayerDeathEvent $event){
     $p = $event->getEntity();
-    $p->drops(array());
+    $p->setDrops(null);
   }
 
   public function onPlayerQuit(PlayerQuitEvent $event){
