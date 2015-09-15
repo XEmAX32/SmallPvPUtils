@@ -30,10 +30,9 @@ class Main extends PluginBase implements Listener
   }
 
   public function onPlayerDeath(PlayerDeathEvent $event){
-    $p = $event->getPlayer();
+    $p = $event->getEntity();
     if($p instanceof Player){
-      $p->setKeepInventory(true);
-      $p->getInventory()->clearAll();
+      $p->setDrops(array());
     }
   }
 
