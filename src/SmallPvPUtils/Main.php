@@ -30,7 +30,6 @@ class Main extends PluginBase implements Listener
   }
 
   public function onPlayerDeath(PlayerDeathEvent $event){
-    $p = $event->getEntity();
     $event->setDrops(array());
   }
 
