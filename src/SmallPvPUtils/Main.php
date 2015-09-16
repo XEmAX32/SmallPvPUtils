@@ -59,16 +59,17 @@ public $pp;
   // TNT Hoe
   public function onPlayerItemHeld(PlayerItemHeldEvent $event){
     $player = $event->getPlayer();
-    if($player->getInventory()->getItemInHand()->getId() === Item::WOODEN_HOE){
-      $player->sendPopup("SuperZappa Esplosiva");
+    if($player->getInventory()->getItemInHand()->getId() === Item::WOODEN_AXE){
+      $player->sendPopup("SuperAscia Esplosiva");
     }
   }
 
   public function onPlayerInteract(PlayerInteractEvent $event){
     $player = $event->getPlayer();
     $pos = $event->getTouchVector();
-    if($player->getInventory()->getItemInHand()->getId() === Item::WOODEN_HOE){
-      (new Explosion(Position::fromObject($pos, $player->level), 5))->explodeA();
+    $level = $player->getLevel();
+    if($player->getInventory()->getItemInHand()->getId() === Item::WOODEN_AXE){
+      new Explosion(new Position($pos, $level), 2)->explodeA();
     }
   }
   
