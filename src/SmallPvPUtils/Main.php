@@ -37,6 +37,7 @@ public $pp;
     }
     $this->getLogger()->info(TextFormat::GREEN."Enabled!");
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
+    $this->scores = new Config($this->getDataFolder()."scores.properties", Config::PROPERTIES);
   }
 
   public function onDisable(){
@@ -51,6 +52,14 @@ public $pp;
   }
 
   public function onPlayerDeath(PlayerDeathEvent $event){
+    $cause = $event->getEntity()->getLastDamageCause();
+    $victim = $event->getEntity()->getName();
+    $killer = $cause->getDamager()->getName();
+    $name = $e->getPlayer()->getName();
+    //PointsPerKill = $this->getConfig()->get("PointsPerKill");
+    $scores->set($name + //qui metti il numero di punti che vuoi oppure $PointsPerKill);
+    //nella speranza che esista un setDeathMessage perche non ricordo se si xD però credo esista senno sostituisci $victim con $ps e $ps sarebbe foreach($this->getServer()->getOnlinePlayers() as $ps)
+    $victim->setDeathMessage(TextFormat::RED . $victim." was killer by "$killer TextFormat::RED . "for ".$cause TextFormat::RED . $killer." +  ".$PointsPerKill);
     $event->setDrops(array());
   }
 
@@ -78,7 +87,8 @@ public $pp;
   }
   
   public function onKillRateScore(KillRateScoreEvent $event){
-    $score = $event->getPoints();
+    $name = $e->getPlayer()->getName();
+    $score = $scores->get($name);
     if($score === "2000"){
       $this->pp->getUser($event->getPlayer())->setGroup($this->pp->getGroup("Pro"), null);
       $event->getPlayer()->sendMessage("Sei salito di rank; adesso sei Pro!");
