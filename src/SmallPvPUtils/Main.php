@@ -65,10 +65,9 @@ public $pp;
 
   public function onPlayerInteract(PlayerInteractEvent $event){
     $player = $event->getPlayer();
-    $pos = $event->getBlock();
-    $level = $player->getLevel();
     if($player->getInventory()->getItemInHand()->getId() === Item::WOODEN_AXE){
-      new Explosion(new Position($pos, $level), 2)->explodeA();
+      $exp = new Explosion($event->getBlock(), 2);
+      $exp->explodeA();
     }
   }
   
