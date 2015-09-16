@@ -6,8 +6,11 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\Player;
+use pocketmine\item\Item;
 use pocketmine\utils\TextFormat;
+use pocketmine\math\Vector3;
 use pocketmine\block\Block;
 use pocketmine\entity\Entity;
 
@@ -33,6 +36,23 @@ class Main extends PluginBase implements Listener
 
   public function onPlayerDeath(PlayerDeathEvent $event){
     $event->setDrops(array());
+  }
+
+
+  // TNT Hoe
+  public function onPlayerItemHeld(PlayerItemHeldEvent $event){
+    $player = $event->getPlayer();
+    if($player->getInventory()->getItemInHand() === Item::WOODEN_HOE){
+      $player->sendPopup("SuperZappa Esplosiva");
+    }
+  }
+
+  public function onPlayerInteract(PlayerInteractEvent $event){
+    $player = $event->getPlayer();
+    $pos = $event->getTouchVector();
+    if($player->getInventory()->getItemInHand() === Item::WOODEN_HOE){
+      // boh
+    }
   }
 
 }
