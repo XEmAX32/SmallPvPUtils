@@ -52,7 +52,7 @@ class Main extends PluginBase implements Listener
     $player = $event->getPlayer();
     $pos = $event->getTouchVector();
     if($player->getInventory()->getItemInHand() === Item::WOODEN_HOE){
-      // boh
+      // booooh
     }
   }
 
