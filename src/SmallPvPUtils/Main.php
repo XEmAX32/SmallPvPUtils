@@ -12,8 +12,8 @@ use pocketmine\Player;
 use pocketmine\item\Item;
 use pocketmine\utils\TextFormat;
 use pocketmine\math\Vector3;
-use pocketmine\block\Block;
-use pocketmine\entity\Entity;
+use pocketmine\level\Explosion;
+use pocketmine\level\Position;
 use aliuly\killrate\api\KillRateScoreEvent;
 use aliuly\killrate\api\KillRateResetEvent;
 
@@ -25,17 +25,17 @@ public $pp;
 
   public function onEnable(){
     $this->kr = $this->getServer()->getPluginManager()->getPlugin("KillRate");
-			if(!$this->kr || intval($this->kr->getDescription()->getVersion()) != 2) {
-				$this->getLogger()->error(TextFormat::RED."Unable to find KillRate");
-				throw new \RuntimeException("Missing Dependancy");
-				return;
-			}
-			$this->pp = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
-			elseif(!$this->pp) {
-				$this->getLogger()->error(TextFormat::RED."Unable to find PurePerms");
-				throw new \RuntimeException("Missing Dependancy");
-				return;
-			}
+    if(!$this->kr || intval($this->kr->getDescription()->getVersion()) != 2) {
+      $this->getLogger()->error(TextFormat::RED."Unable to find KillRate");
+      throw new \RuntimeException("Missing Dependancy");
+      return;
+    }
+    $this->pp = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
+    if(!$this->pp) {
+      $this->getLogger()->error(TextFormat::RED."Unable to find PurePerms");
+      throw new \RuntimeException("Missing Dependancy");
+      return;
+    }
     $this->getLogger()->info(TextFormat::GREEN."Enabled!");
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
   }
@@ -59,7 +59,7 @@ public $pp;
   // TNT Hoe
   public function onPlayerItemHeld(PlayerItemHeldEvent $event){
     $player = $event->getPlayer();
-    if($player->getInventory()->getItemInHand() === Item::WOODEN_HOE){
+    if($player->getInventory()->getItemInHand()->getId() === Item::WOODEN_HOE){
       $player->sendPopup("SuperZappa Esplosiva");
     }
   }
@@ -67,8 +67,8 @@ public $pp;
   public function onPlayerInteract(PlayerInteractEvent $event){
     $player = $event->getPlayer();
     $pos = $event->getTouchVector();
-    if($player->getInventory()->getItemInHand() === Item::WOODEN_HOE){
-      // booooh
+    if($player->getInventory()->getItemInHand()->getId() === Item::WOODEN_HOE){
+      (new Explosion(Position::fromObject($pos, $player->level), 5))->explodeA();
     }
   }
   
