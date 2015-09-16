@@ -11,7 +11,6 @@ use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\Player;
 use pocketmine\item\Item;
 use pocketmine\utils\TextFormat;
-use pocketmine\math\Vector3;
 use pocketmine\level\Explosion;
 use pocketmine\level\Position;
 use aliuly\killrate\api\KillRateScoreEvent;
@@ -66,7 +65,7 @@ public $pp;
 
   public function onPlayerInteract(PlayerInteractEvent $event){
     $player = $event->getPlayer();
-    $pos = $event->getTouchVector();
+    $pos = $event->getBlock();
     $level = $player->getLevel();
     if($player->getInventory()->getItemInHand()->getId() === Item::WOODEN_AXE){
       new Explosion(new Position($pos, $level), 2)->explodeA();
