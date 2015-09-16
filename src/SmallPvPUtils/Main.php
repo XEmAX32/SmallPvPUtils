@@ -79,14 +79,14 @@ public $pp;
   }
   
   public function onKillRateScore(KillRateScoreEvent $event){
-    $score = $event->getPoints()
+    $score = $event->getPoints();
     if($score === "2000"){
       $this->pp->getUser($event->getPlayer())->setGroup($this->pp->getGroup("Pro"), null);
-      $event->getPlayer()->sendMessage("Sei salito di rank; adesso sei Pro!")
+      $event->getPlayer()->sendMessage("Sei salito di rank; adesso sei Pro!");
     }
     elseif($score === "5000"){
       $this->pp->getUser($event->getPlayer())->setGroup($this->pp->getGroup("Dio"), null);
-      $event->getPlayer()->sendMessage("Sei salito di rank; adesso sei Dio!")
+      $event->getPlayer()->sendMessage("Sei salito di rank; adesso sei Dio!");
     }
     elseif($score === "0"){
       $this->pp->getUser($event->getPlayer())->setGroup($this->pp->getDefaultGroup(), null);
