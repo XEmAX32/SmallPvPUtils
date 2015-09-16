@@ -14,12 +14,28 @@ use pocketmine\utils\TextFormat;
 use pocketmine\math\Vector3;
 use pocketmine\block\Block;
 use pocketmine\entity\Entity;
+use aliuly\killrate\api\KillRateScoreEvent;
+use aliuly\killrate\api\KillRateResetEvent;
 
 class Main extends PluginBase implements Listener
 
 {
+public $kr;
+public $pp;
 
   public function onEnable(){
+    $this->kr = $this->getServer()->getPluginManager()->getPlugin("KillRate");
+			if(!$this->kr || intval($this->kr->getDescription()->getVersion()) != 2) {
+				$this->getLogger()->error(TextFormat::RED."Unable to find KillRate");
+				throw new \RuntimeException("Missing Dependancy");
+				return;
+			}
+			$this->pp = $this->getServer()->getPluginManager()->getPlugin("PurePerms");
+			elseif(!$this->pp) {
+				$this->getLogger()->error(TextFormat::RED."Unable to find PurePerms");
+				throw new \RuntimeException("Missing Dependancy");
+				return;
+			}
     $this->getLogger()->info(TextFormat::GREEN."Enabled!");
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
   }
@@ -53,6 +69,27 @@ class Main extends PluginBase implements Listener
     $pos = $event->getTouchVector();
     if($player->getInventory()->getItemInHand() === Item::WOODEN_HOE){
       // booooh
+    }
+  }
+  
+  // KillRate Based PurePerms Rank Section
+  public function onKillRateReset(KillRateResetEvent $event){
+    $event->getPlayer()->sendMessage("I punteggi sono stati resettati, pertanto hai perso il tuo rank.");
+    $this->pp->getUser($event->getPlayer())->setGroup($this->pp->getDefaultGroup(), null);
+  }
+  
+  public function onKillRateScore(KillRateScoreEvent $event){
+    $score = $event->getPoints()
+    if($score === "2000"){
+      $this->pp->getUser($event->getPlayer())->setGroup($this->pp->getGroup("Pro"), null);
+      $event->getPlayer()->sendMessage("Sei salito di rank; adesso sei Pro!")
+    }
+    elseif($score === "5000"){
+      $this->pp->getUser($event->getPlayer())->setGroup($this->pp->getGroup("Dio"), null);
+      $event->getPlayer()->sendMessage("Sei salito di rank; adesso sei Dio!")
+    }
+    elseif($score === "0"){
+      $this->pp->getUser($event->getPlayer())->setGroup($this->pp->getDefaultGroup(), null);
     }
   }
 
