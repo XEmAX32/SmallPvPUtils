@@ -67,7 +67,7 @@ public $pp;
     $player = $event->getPlayer();
     if($player->getInventory()->getItemInHand()->getId() === Item::WOODEN_AXE){
       $exp = new Explosion($event->getBlock(), 2);
-      $exp->explodeA();
+      $exp->explodeB();
     }
   }
   
